@@ -1,0 +1,61 @@
+local Library = loadstring(game:HttpGet("https://pastebin.com/raw/vff1bQ9F"))()
+local Window = Library.CreateLib("G.A.B", "Synapse")
+
+-- Tabs
+local Tab1 = Window:NewTab("Main")
+
+-- Sections
+local Section1 = Tab1:NewSection("Player")
+local Section2 = Tab1:NewSection("Zombies")
+
+-- Buttons
+Section1:NewButton("Remove fall and grab", "Null", function()
+    local player = game.Players.LocalPlayer
+
+    while true do
+        local character = player.Character
+
+        if character and character:FindFirstChild("HumanoidRootPart") and character:FindFirstChild("Fall") then
+            if character.HumanoidRootPart:FindFirstChild("GrabP") and character:FindFirstChild("Fall") then
+                character.HumanoidRootPart.GrabP:Destroy()
+                character.Fall:Destroy()
+                break  -- Exit the loop once the objects are destroyed
+            end
+        end
+
+        wait(1)  -- Wait for 1 second before checking again
+    end
+end)
+
+Section1:NewButton("Inf Yield", "Null", function()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+end)
+
+-- Input box
+Section2:NewTextBox("Head Size", "Increase the head of Zombie", function(txt)
+    _G.HeadSize = txt -- Adjust the head size as per your requirement
+    _G.Disabled = false -- Set to true if you want the script initially disabled
+
+    game:GetService('RunService').RenderStepped:Connect(function()
+        if not _G.Disabled then
+            local camera = workspace.CurrentCamera
+            if camera then
+                local zombies = camera:GetChildren() -- Get all children under Camera
+                
+                for _, zombie in ipairs(zombies) do
+                    if zombie.Name == "m_Zombie" and zombie:IsA("Model") then
+                        local head = zombie:FindFirstChild("Head") -- Find the Head part of the NPC
+
+                        if head and head:IsA("MeshPart") then
+                            pcall(function()
+                                head.Size = Vector3.new(_G.HeadSize, _G.HeadSize, _G.HeadSize)
+                                head.Transparency = 0.99
+                                head.CanCollide = false
+                            end)
+                        end
+                    end
+                end
+            end
+        end
+    end)
+end)
