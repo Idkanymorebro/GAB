@@ -8,7 +8,7 @@ local Tab1 = Window:NewTab("Main")
 -- Sections
 local Section1 = Tab1:NewSection("Player")
 local Section2 = Tab1:NewSection("Zombies")
-local Section3 = Tab1:NewSection("Farrish Iman noob 🤫🧏")
+local Section3 = Tab1:NewSection("Made by XRazwi🤫🧏")
 
 -- Buttons
 Section1:NewButton("Remove fall dmg and grab", "Removing grab won't always save you.", function()
