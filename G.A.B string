@@ -10,7 +10,7 @@ local Section1 = Tab1:NewSection("Player")
 local Section2 = Tab1:NewSection("Zombies")
 local Section3 = Tab1:NewSection("Made by XRazwi🤫🧏")
 
--- Buttons
+-- Button Sec 1
 Section1:NewButton("Remove fall dmg and grab", "Removing grab won't always save you.", function()
     local player = game.Players.LocalPlayer
 
@@ -29,11 +29,49 @@ Section1:NewButton("Remove fall dmg and grab", "Removing grab won't always save 
     end
 end)
 
+
+-- Button sec 2
 Section1:NewButton("Inf Yield", "Recommended Commands: Fullbright, noclip", function()
     loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
 end)
 
--- Input box
+Section1:NewButton("ESP Zombies", "Highlights all the zombies locations", function()
+    local workspace = game:GetService("Workspace")
+
+-- Function to create selection box for every part
+local function createSelectionBoxes(model)
+    for _, part in ipairs(model:GetDescendants()) do
+        if part:IsA("Part") then
+            local selectionBox = Instance.new("SelectionBox")
+            selectionBox.Color3 = Color3.new(1, 0, 0) -- Red color
+            selectionBox.LineThickness = 0.05
+            selectionBox.Adornee = part
+            selectionBox.Parent = part
+        end
+    end
+end
+
+-- Function to highlight zombies
+local function highlightZombies()
+    while true do
+        local cameraFolder = workspace:WaitForChild("Camera")
+        for _, zombie in ipairs(cameraFolder:GetChildren()) do
+            if zombie.Name == "m_Zombie" and zombie:IsA("Model") then
+                createSelectionBoxes(zombie)
+            end
+        end
+        wait(1) -- Adjust the wait time as needed
+    end
+end
+
+-- Start highlighting zombies
+highlightZombies()
+
+end)
+
+
+
+-- Input box sec 2
 Section2:NewTextBox("Head Size", "Increase the head of zombie(bombers doesn't work)", function(txt)
     _G.HeadSize = txt -- Adjust the head size as per your requirement
     _G.Disabled = false -- Set to true if you want the script initially disabled
