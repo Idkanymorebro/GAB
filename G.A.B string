@@ -29,13 +29,12 @@ Section1:NewButton("Remove fall dmg and grab", "Removing grab won't always save 
     end
 end)
 
-
--- Button sec 2
 Section1:NewButton("Inf Yield", "Recommended Commands: Fullbright, noclip", function()
     loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
 end)
 
-Section1:NewButton("ESP Zombies", "Highlights all the zombies locations", function()
+-- Buttona sec 2
+Section2:NewButton("ESP Zombies", "Highlights all the zombies locations", function()
     local workspace = game:GetService("Workspace")
 
 -- Function to create selection box for every part
