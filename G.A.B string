@@ -34,38 +34,30 @@ Section1:NewButton("Inf Yield", "Recommended Commands: Fullbright, noclip", func
 end)
 
 -- Buttona sec 2
-Section2:NewButton("ESP Zombies", "Highlights all the zombies locations", function()
-    local workspace = game:GetService("Workspace")
+Section2:NewButton("Bombers ESP(If i make ESP for all zombies it will be laggy.)", "Highlights zombies with bomb", function()
+    -- Find all m_Zombie models under the Camera
+local mZombies = game.Workspace.Camera:GetDescendants("m_Zombie")
 
--- Function to create selection box for every part
-local function createSelectionBoxes(model)
-    for _, part in ipairs(model:GetDescendants()) do
-        if part:IsA("Part") then
-            local selectionBox = Instance.new("SelectionBox")
-            selectionBox.Color3 = Color3.new(1, 0, 0) -- Red color
-            selectionBox.LineThickness = 0.05
-            selectionBox.Adornee = part
-            selectionBox.Parent = part
-        end
-    end
+-- Loop through each m_Zombie model
+for _, zombieModel in ipairs(mZombies) do
+  -- Check if the model has a child named "Barrel" or "Torch"
+  local hasBarrel = zombieModel:FindFirstChild("Barrel")
+  local hasTorch = zombieModel:FindFirstChild("Torch")
+
+  if hasBarrel or hasTorch then
+    -- Create a Highlight instance and parent it to the m_Zombie model
+    local highlight = Instance.new("Highlight")
+    highlight.Parent = zombieModel
+
+    -- Set the highlight color properties
+    highlight.FillColor = Color3.new(1, 0, 0) -- Red
+    highlight.OutlineColor = Color3.new(1, 1, 1) -- White
+
+    -- Optionally, adjust other highlight properties (transparency, etc.)
+    -- highlight.OutlineTransparency = 0.5
+
+  end
 end
-
--- Function to highlight zombies
-local function highlightZombies()
-    while true do
-        local cameraFolder = workspace:WaitForChild("Camera")
-        for _, zombie in ipairs(cameraFolder:GetChildren()) do
-            if zombie.Name == "m_Zombie" and zombie:IsA("Model") then
-                createSelectionBoxes(zombie)
-            end
-        end
-        wait(1) -- Adjust the wait time as needed
-    end
-end
-
--- Start highlighting zombies
-highlightZombies()
-
 end)
 
 
