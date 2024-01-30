@@ -29,8 +29,9 @@ Section1:NewButton("Remove fall dmg and grab", "Removing grab won't always save 
     end
 end)
 
-Section1:NewButton("Inf Yield", "Recommended Commands: Fullbright, noclip", function()
-    loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+Section1:NewTextBox("Walkspeed", "Modify your character's speed", function(S)
+	local speed = S
+game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = speed
 end)
 
 -- Buttona sec 2
