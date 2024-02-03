@@ -357,6 +357,35 @@ Section2:NewButton("Runners esp", "Highlights all runners", function()
 end
 end)
 
+Section2:NewButton("ESP Zapper", "Highlights all axed zombie", function()
+    while true do
+    -- Find all m_Zombie models under the Camera (this will update continuously)
+    local mZombies = game.Workspace.Camera:GetDescendants("m_Zombie")
+
+    -- Loop through each m_Zombie model
+    for _, zombieModel in ipairs(mZombies) do
+        -- Check if the model has a child named "Axe" that is a model
+        local hasAxe = zombieModel:FindFirstChild("Axe") and zombieModel:FindFirstChild("Axe"):IsA("Model")
+
+        if hasAxe then
+            -- Highlight the m_Zombie model if it has the Axe child
+            local highlight = Instance.new("Highlight")
+            highlight.Parent = zombieModel
+
+            -- Set the highlight color properties to brown
+            highlight.FillColor = Color3.new(0.64, 0.16, 0.16) -- Brown
+            highlight.OutlineColor = Color3.new(0.85, 0.74, 0.65) -- Light brown
+
+            -- Optionally, adjust other highlight properties (transparency, etc.)
+            -- highlight.OutlineTransparency = 0.5
+        end
+    end
+
+    -- Wait for a short time before repeating the loop
+    wait(1) -- Adjust this wait time as needed
+end
+end)
+
 
 -- Input box sec 2
 Section2:NewTextBox("Head Size", "Increase the head of zombie(bombers doesn't work)", function(txt)
