@@ -258,35 +258,9 @@ _G.FullBrightEnabled = not _G.FullBrightEnabled
     end
 end)
 
-Section1:NewToggle("Noclip", "Walkthrough walls", function(state)
-    if state then
-        local Noclip = nil
+--noclip toggle
+local Noclip = nil
 local Clip = nil
-
-function noclip()
-	Clip = false
-	local function Nocl()
-		if Clip == false and game.Players.LocalPlayer.Character ~= nil then
-			for _,v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
-				if v:IsA('BasePart') and v.CanCollide and v.Name ~= floatName then
-					v.CanCollide = false
-				end
-			end
-		end
-		wait(0.21) -- basic optimization
-	end
-	Noclip = game:GetService('RunService').Stepped:Connect(Nocl)
-end
-
-function clip()
-	if Noclip then Noclip:Disconnect() end
-	Clip = true
-end
-
-noclip() -- to toggle noclip() and clip()
-     else
-        local Noclip = nil
-local Clip = true  -- Start with collisions enabled
 
 function noclip()
     Clip = false
@@ -306,15 +280,13 @@ end
 function clip()
     if Noclip then Noclip:Disconnect() end
     Clip = true
-    -- Re-enable collisions for all BaseParts in the character
-    for _,v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
-        if v:IsA('BasePart') then
-            v.CanCollide = true
-        end
-    end
 end
 
-clip() -- Start with collisions enabled by default
+Section1:NewToggle("Toggle Noclip", "Walkthrough walls", function(state)
+    if state then
+        noclip() -- Activate noclip
+    else
+        clip() -- Deactivate noclip
     end
 end)
 
