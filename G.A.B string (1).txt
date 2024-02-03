@@ -278,15 +278,22 @@ function noclip()
 end
 
 function clip()
-    if Noclip then Noclip:Disconnect() end
-    Clip = true
+    if Noclip then
+        -- Immediately re-enable collisions for all parts
+        for _, v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+            if v:IsA('BasePart') and v.Name ~= floatName then
+                v.CanCollide = true
+            end
+        end
+        Noclip:Disconnect() -- Disconnect the Stepped event connection
+    end
 end
 
 Section1:NewToggle("Toggle Noclip", "Walkthrough walls", function(state)
     if state then
         noclip() -- Activate noclip
     else
-        clip() -- Deactivate noclip
+        clip() -- Deactivate noclip (immediate disabling)
     end
 end)
 
