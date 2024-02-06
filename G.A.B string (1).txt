@@ -299,7 +299,7 @@ end)
 
 
 -- Buttona sec 2
-Section2:NewButton("Bombers ESP.)", "Highlights all bomber", function()
+Section2:NewButton("Bombers ESP", "Highlights all bomber", function()
     while true do
     -- Find all m_Zombie models under the Camera (this will update continuously)
     local mZombies = game.Workspace.Camera:GetDescendants("m_Zombie")
@@ -357,7 +357,7 @@ Section2:NewButton("Runners esp", "Highlights all runners", function()
 end
 end)
 
-Section2:NewButton("ESP Zapper", "Highlights all axed zombie", function()
+Section2:NewButton("Zappers ESP", "Highlights all axed zombie", function()
     while true do
     -- Find all m_Zombie models under the Camera (this will update continuously)
     local mZombies = game.Workspace.Camera:GetDescendants("m_Zombie")
