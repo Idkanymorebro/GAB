@@ -1,0 +1,27 @@
+while true do
+    -- Find all m_Zombie models under the Camera (this will update continuously)
+    local mZombies = game.Workspace.Camera:GetDescendants("m_Zombie")
+
+    -- Loop through each m_Zombie model
+    for _, zombieModel in ipairs(mZombies) do
+        -- Check if the model has a child named "Barrel" or "Torch"
+        local hasBarrel = zombieModel:FindFirstChild("Barrel")
+        local hasTorch = zombieModel:FindFirstChild("Torch")
+
+        if hasBarrel or hasTorch then
+            -- Create a Highlight instance and parent it to the m_Zombie model
+            local highlight = Instance.new("Highlight")
+            highlight.Parent = zombieModel
+
+            -- Set the highlight color properties
+            highlight.FillColor = Color3.new(1, 0, 0) -- Red
+            highlight.OutlineColor = Color3.new(1, 1, 1) -- White
+
+            -- Optionally, adjust other highlight properties (transparency, etc.)
+            -- highlight.OutlineTransparency = 0.5
+        end
+    end
+
+    -- Wait for a short time before repeating the loop
+    wait(1) -- Adjust this wait time as needed
+end
