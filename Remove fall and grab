@@ -1,0 +1,15 @@
+local player = game.Players.LocalPlayer
+
+    while true do
+        local character = player.Character
+
+        if character and character:FindFirstChild("HumanoidRootPart") and character:FindFirstChild("Fall") then
+            if character.HumanoidRootPart:FindFirstChild("GrabP") and character:FindFirstChild("Fall") then
+                character.HumanoidRootPart.GrabP:Destroy()
+                character.Fall:Destroy()
+                break  -- Exit the loop once the objects are destroyed
+            end
+        end
+
+        wait(1)  -- Wait for 1 second before checking again
+    end
