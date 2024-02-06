@@ -1,0 +1,91 @@
+local Library = loadstring(game:HttpGet("https://pastebin.com/raw/vff1bQ9F"))()
+local Window = Library.CreateLib("G.A.B GUI", "BloodTheme")
+
+
+-- Tab1
+local Tab1 = Window:NewTab("Main")
+
+-- Sections
+local Section1 = Tab1:NewSection("Player")
+local Section2 = Tab1:NewSection("Zombies")
+local Section3 = Tab1:NewSection("Made by XRazwi?дл??")
+
+Section3:NewKeybind("Toggle UI Z", "null", Enum.KeyCode.Z, function()
+	Library:ToggleUI()
+end)
+
+--Buttons sec 1
+Section1:NewButton("Remove fall dmg and grab", "Removing grab won't always save you.", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Idkanymorebro/GAB/main/Remove%20fall%20and%20grab"))()
+    
+end)
+
+Section1:NewTextBox("Walkspeed", "Modify your character's speed", function(S)
+	local speed = S
+game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = speed
+end)
+
+
+--Toggle sec 1
+Section1:NewToggle("Fullbright", "Making the map", function(state)
+    if state then
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Idkanymorebro/GAB/main/Brightness"))()
+    else
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Idkanymorebro/GAB/main/Brightness"))()
+    end
+end)
+
+--noclip toggle
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Idkanymorebro/GAB/main/Noclip"))()
+
+Section1:NewToggle("Noclip", "Walkthrough walls", function(state)
+    if state then
+        noclip() -- Activate noclip
+    else
+        clip() -- Deactivate noclip (immediate disabling)
+    end
+end)
+
+
+-- Buttona sec 2
+Section2:NewButton("Bombers ESP", "Highlights all bomber", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Idkanymorebro/GAB/main/Bomb%20esp"))()
+end)
+
+Section2:NewButton("Runners esp", "Highlights all runners", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Idkanymorebro/GAB/main/Runners%20esp"))()
+end)
+
+Section2:NewButton("Zappers ESP", "Highlights all axed zombie", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Idkanymorebro/GAB/main/Zappers%20esp"))()
+end)
+
+
+-- Input box sec 2
+Section2:NewTextBox("Head Size", "Increase the head of zombie(bombers doesn't work)", function(txt)
+    _G.HeadSize = txt -- Adjust the head size as per your requirement
+    _G.Disabled = false -- Set to true if you want the script initially disabled
+
+    game:GetService('RunService').RenderStepped:Connect(function()
+        if not _G.Disabled then
+            local camera = workspace.CurrentCamera
+            if camera then
+                local zombies = camera:GetChildren() -- Get all children under Camera
+                
+                for _, zombie in ipairs(zombies) do
+                    if zombie.Name == "m_Zombie" and zombie:IsA("Model") then
+                        local head = zombie:FindFirstChild("Head") -- Find the Head part of the NPC
+
+                        if head and head:IsA("MeshPart") then
+                            pcall(function()
+                                head.Size = Vector3.new(_G.HeadSize, _G.HeadSize, _G.HeadSize)
+                                head.Transparency = 0.90
+                                head.CanCollide = false
+                            end)
+                        end
+                    end
+                end
+            end
+        end
+    end)
+end)
