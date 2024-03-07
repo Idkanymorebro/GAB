@@ -45,11 +45,11 @@ Section2:NewButton("Bombers ESP", "Highlight all bombers", function()
 end)
 
 Section2:NewButton("Runners ESP", "Highlight all runners", function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/Idkanymorebro/GAB/main/Runners%20esp.lua"))()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Idkanymorebro/GAB/main/Runners%20esp"))()
 end)
 
 Section2:NewButton("Zappers ESP", "Highlight all axed zombies", function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/Idkanymorebro/GAB/main/Zappers%20esp.lua"))()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Idkanymorebro/GAB/main/Zappers%20esp"))()
 end)
 
 -- Input box sec 2
