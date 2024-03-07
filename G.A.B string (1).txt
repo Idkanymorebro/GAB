@@ -100,12 +100,12 @@ Section2:NewTextBox("Torso Size", "Adjust the torso size of zombies", function(t
                         end
 
                         if not ignoreModel then
-                            local torso = zombie:FindFirstChild("Torso") -- Change made here
-                            if torso and torso:IsA("Part") then
+                            local humanoidRootPart = zombie:FindFirstChild("HumanoidRootPart")
+                            if humanoidRootPart and humanoidRootPart:IsA("Part") then
                                 pcall(function()
-                                    torso.Size = Vector3.new(_G.TorsoSize, _G.TorsoSize, _G.TorsoSize)
-                                    torso.Transparency = 0.9
-                                    torso.CanCollide = false
+                                    humanoidRootPart.Size = Vector3.new(_G.TorsoSize, _G.TorsoSize, _G.TorsoSize)
+                                    humanoidRootPart.Transparency = 0.9
+                                    humanoidRootPart.CanCollide = false
 
                                     for _, part in ipairs(zombie:GetDescendants()) do
                                         if part:IsA("Part") then
@@ -120,4 +120,3 @@ Section2:NewTextBox("Torso Size", "Adjust the torso size of zombies", function(t
             end
         end
     end)
-end)
