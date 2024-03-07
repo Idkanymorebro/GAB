@@ -9,76 +9,65 @@ local Section1 = Tab1:NewSection("Player")
 local Section2 = Tab1:NewSection("Zombies")
 local Section3 = Tab1:NewSection("Made by XRazwi?¤«??")
 
-Section3:NewKeybind("Toggle P", "KeybindInfo", Enum.KeyCode.P, function()
-	Library:ToggleUI()
+Section3:NewKeybind("Toggle UI", "Toggle the GUI", Enum.KeyCode.P, function()
+    Library:ToggleUI()
 end)
 
---Buttons sec 1
-Section1:NewButton("Remove fall dmg and grab", "Removing grab won't always save you.", function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/Idkanymorebro/GAB/main/Remove%20fall%20and%20grab"))()
-    
+-- Buttons sec 1
+Section1:NewButton("Remove Fall Dmg and Grab", "Removes fall damage and grab", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Idkanymorebro/GAB/main/Remove%20fall%20and%20grab.lua"))()
 end)
 
-Section1:NewTextBox("Walkspeed", "Modify your character's speed", function(S)
-	local speed = S
-game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = speed
+Section1:NewTextBox("Walkspeed", "Modify your character's speed", function(speed)
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = tonumber(speed) or 16
 end)
 
+-- Toggle sec 1
+Section1:NewToggle("Fullbright", "Make the map brighter", function(state)
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Idkanymorebro/GAB/main/Brightness.lua"))()
+end)
 
---Toggle sec 1
-Section1:NewToggle("Fullbright", "Making the map", function(state)
-    if state then
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/Idkanymorebro/GAB/main/Brightness"))()
+-- Noclip toggle
+local noclipEnabled = false
+
+Section1:NewToggle("Noclip", "Walk through walls", function(state)
+    noclipEnabled = state
+    if noclipEnabled then
+        noclip()
     else
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/Idkanymorebro/GAB/main/Brightness"))()
+        clip()
     end
 end)
 
---noclip toggle
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Idkanymorebro/GAB/main/Noclip"))()
-
-Section1:NewToggle("Noclip", "Walkthrough walls", function(state)
-    if state then
-        noclip() -- Activate noclip
-    else
-        clip() -- Deactivate noclip (immediate disabling)
-    end
+-- Buttons sec 2
+Section2:NewButton("Bombers ESP", "Highlight all bombers", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Idkanymorebro/GAB/main/Bomb%20esp.lua"))()
 end)
 
-
--- Buttona sec 2
-Section2:NewButton("Bombers ESP", "Highlights all bomber", function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/Idkanymorebro/GAB/main/Bomb%20esp"))()
+Section2:NewButton("Runners ESP", "Highlight all runners", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Idkanymorebro/GAB/main/Runners%20esp.lua"))()
 end)
 
-Section2:NewButton("Runners esp", "Highlights all runners", function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/Idkanymorebro/GAB/main/Runners%20esp"))()
+Section2:NewButton("Zappers ESP", "Highlight all axed zombies", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Idkanymorebro/GAB/main/Zappers%20esp.lua"))()
 end)
-
-Section2:NewButton("Zappers ESP", "Highlights all axed zombie", function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/Idkanymorebro/GAB/main/Zappers%20esp"))()
-end)
-
 
 -- Input box sec 2
-Section2:NewTextBox("Head Size", "Increase the head of zombie(bombers doesn't work)", function(txt)
-    _G.HeadSize = txt -- Adjust the head size as per your requirement
-    _G.Disabled = false -- Set to true if you want the script initially disabled
+Section2:NewTextBox("Head Size", "Increase the head size of zombies (bombers excluded)", function(headSize)
+    _G.HeadSize = tonumber(headSize) or 2.5
+    _G.Disabled = false
 
     game:GetService('RunService').RenderStepped:Connect(function()
         if not _G.Disabled then
             local camera = workspace.CurrentCamera
             if camera then
-                local zombies = camera:GetChildren() -- Get all children under Camera
-                
-                for _, zombie in ipairs(zombies) do
+                for _, zombie in ipairs(camera:GetChildren()) do
                     if zombie.Name == "m_Zombie" and zombie:IsA("Model") then
-                        local head = zombie:FindFirstChild("Head") -- Find the Head part of the NPC
-
+                        local head = zombie:FindFirstChild("Head")
                         if head and head:IsA("MeshPart") then
                             pcall(function()
                                 head.Size = Vector3.new(_G.HeadSize, _G.HeadSize, _G.HeadSize)
-                                head.Transparency = 0.90
+                                head.Transparency = 0.9
                                 head.CanCollide = false
                             end)
                         end
@@ -89,50 +78,46 @@ Section2:NewTextBox("Head Size", "Increase the head of zombie(bombers doesn't wo
     end)
 end)
 
-
 -- For the torso
-Section2:NewTextBox("Torso Size", "TextboxInfo", function(pxp)
-	_G.TorsoSize = pxp
-_G.Disabled = false -- Set to true if you want the script initially disabled
+Section2:NewTextBox("Torso Size", "Adjust the torso size of zombies", function(torsoSize)
+    _G.TorsoSize = tonumber(torsoSize) or 5
+    _G.Disabled = false
 
-game:GetService('RunService').RenderStepped:Connect(function()
-    if not _G.Disabled then
-        local camera = workspace.CurrentCamera
-        if camera then
-            local zombies = camera:GetChildren() -- Get all children under Camera
-            
-            for _, zombie in ipairs(zombies) do
-                if zombie.Name == "m_Zombie" and zombie:IsA("Model") then
-                    local ignoreModel = false
-                    local ignoreList = {"Barrel", "Torch", "FTorso", "Whale oil lantern"}
-                    
-                    for _, ignoreName in ipairs(ignoreList) do
-                        if zombie:FindFirstChild(ignoreName, true) then
-                            ignoreModel = true
-                            break
+    game:GetService('RunService').RenderStepped:Connect(function()
+        if not _G.Disabled then
+            local camera = workspace.CurrentCamera
+            if camera then
+                for _, zombie in ipairs(camera:GetChildren()) do
+                    if zombie.Name == "m_Zombie" and zombie:IsA("Model") then
+                        local ignoreModel = false
+                        local ignoreList = {"Barrel", "Torch", "FTorso", "Whale oil lantern"}
+
+                        for _, ignoreName in ipairs(ignoreList) do
+                            if zombie:FindFirstChild(ignoreName, true) then
+                                ignoreModel = true
+                                break
+                            end
                         end
-                    end
-                    
-                    if not ignoreModel then
-                        local head = zombie:FindFirstChild("HumanoidRootPart") -- Find the Head part of the NPC
 
-                        if head and head:IsA("Part") then
-                            pcall(function()
-                                head.Size = Vector3.new(_G.TorsoSize, _G.TorsoSize, _G.TorsoSize)
-                                head.Transparency = 0.90
-                                head.CanCollide = false
-                                
-                                for _, part in ipairs(zombie:GetDescendants()) do
-                                    if part:IsA("Part") then
-                                        part.Transparency = 0.90
+                        if not ignoreModel then
+                            local humanoidRootPart = zombie:FindFirstChild("HumanoidRootPart")
+                            if humanoidRootPart and humanoidRootPart:IsA("Part") then
+                                pcall(function()
+                                    humanoidRootPart.Size = Vector3.new(_G.TorsoSize, _G.TorsoSize, _G.TorsoSize)
+                                    humanoidRootPart.Transparency = 0.9
+                                    humanoidRootPart.CanCollide = false
+
+                                    for _, part in ipairs(zombie:GetDescendants()) do
+                                        if part:IsA("Part") then
+                                            part.Transparency = 0.9
+                                        end
                                     end
-                                end
-                            end)
+                                end)
+                            end
                         end
                     end
                 end
             end
         end
-    end
-end)
+    end)
 end)
