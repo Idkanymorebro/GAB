@@ -88,3 +88,50 @@ Section2:NewTextBox("Head Size", "Increase the head of zombie(bombers doesn't wo
         end
     end)
 end)
+
+
+-- For the torso ofc
+Section2:NewTextBox("Torso Size", "null", function(txt)
+_G.TorsoSize = txt -- Adjust the head size as per your requirement
+_G.Disabled = false -- Set to true if you want the script initially disabled
+
+game:GetService('RunService').RenderStepped:Connect(function()
+    if not _G.Disabled then
+        local camera = workspace.CurrentCamera
+        if camera then
+            local zombies = camera:GetChildren() -- Get all children under Camera
+            
+            for _, zombie in ipairs(zombies) do
+                if zombie.Name == "m_Zombie" and zombie:IsA("Model") then
+                    local ignoreModel = false
+                    local ignoreList = {"Barrel", "Torch", "FTorso", "Whale oil lantern"}
+                    
+                    for _, ignoreName in ipairs(ignoreList) do
+                        if zombie:FindFirstChild(ignoreName, true) then
+                            ignoreModel = true
+                            break
+                        end
+                    end
+                    
+                    if not ignoreModel then
+                        local humanoidRootPart = zombie:FindFirstChild("HumanoidRootPart") -- Find the HumanoidRootPart of the NPC
+
+                        if humanoidRootPart and humanoidRootPart:IsA("Part") then
+                            pcall(function()
+                                humanoidRootPart.Size = Vector3.new(_G.TorsoSize, _G.TorsoSize, _G.TorsoSize)
+                                humanoidRootPart.Transparency = 0.80
+                                humanoidRootPart.CanCollide = false
+                                
+                                for _, part in ipairs(zombie:GetDescendants()) do
+                                    if part:IsA("Part") then
+                                        part.Transparency = 0.80
+                                    end
+                                end
+                            end)
+                        end
+                    end
+                end
+            end
+        end
+    end
+end)
