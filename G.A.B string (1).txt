@@ -41,7 +41,7 @@ end)
 
 -- Buttons sec 2
 Section2:NewButton("Bombers ESP", "Highlight all bombers", function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/Idkanymorebro/GAB/main/Bomb%20esp.lua"))()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Idkanymorebro/GAB/main/Bomb%20esp"))()
 end)
 
 Section2:NewButton("Runners ESP", "Highlight all runners", function()
