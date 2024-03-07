@@ -91,6 +91,6 @@ end)
 
 
 -- For the torso
-Section2:NewTextBox("Head Size", "TextboxInfo", function(pxp)
+Section2:NewTextBox("Torso Size", "TextboxInfo", function(pxp)
 	print(txt)
 end)
