@@ -67,7 +67,7 @@ Section2:NewTextBox("Head Size", "Increase the head size of zombies (bombers exc
                         if head and head:IsA("MeshPart") then
                             pcall(function()
                                 head.Size = Vector3.new(_G.HeadSize, _G.HeadSize, _G.HeadSize)
-                                head.Transparency = 0.9
+                                head.Transparency = 0.90
                                 head.CanCollide = false
                             end)
                         end
@@ -78,45 +78,3 @@ Section2:NewTextBox("Head Size", "Increase the head size of zombies (bombers exc
     end)
 end)
 
--- For the torso
-Section2:NewTextBox("Torso Size", "Adjust the torso size of zombies", function(torsoSize)
-    _G.TorsoSize = tonumber(torsoSize) or 5
-    _G.Disabled = false
-
-    game:GetService('RunService').RenderStepped:Connect(function()
-        if not _G.Disabled then
-            local camera = workspace.CurrentCamera
-            if camera then
-                for _, zombie in ipairs(camera:GetChildren()) do
-                    if zombie.Name == "m_Zombie" and zombie:IsA("Model") then
-                        local ignoreModel = false
-                        local ignoreList = {"Barrel", "Torch", "FTorso", "Whale oil lantern"}
-
-                        for _, ignoreName in ipairs(ignoreList) do
-                            if zombie:FindFirstChild(ignoreName, true) then
-                                ignoreModel = true
-                                break
-                            end
-                        end
-
-                        if not ignoreModel then
-                            local humanoidRootPart = zombie:FindFirstChild("HumanoidRootPart")
-                            if humanoidRootPart and humanoidRootPart:IsA("Part") then
-                                pcall(function()
-                                    humanoidRootPart.Size = Vector3.new(_G.TorsoSize, _G.TorsoSize, _G.TorsoSize)
-                                    humanoidRootPart.Transparency = 0.9
-                                    humanoidRootPart.CanCollide = false
-
-                                    for _, part in ipairs(zombie:GetDescendants()) do
-                                        if part:IsA("Part") then
-                                            part.Transparency = 0.9
-                                        end
-                                    end
-                                end)
-                            end
-                        end
-                    end
-                end
-            end
-        end
-    end)
